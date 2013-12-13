@@ -19,6 +19,7 @@
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
                           Loaded="Browser_Loaded"
+                          ScriptNotify="Browser_ScriptNotify"
                           NavigationFailed="Browser_NavigationFailed" />
     </Grid>
 </phone:PhoneApplicationPage>
