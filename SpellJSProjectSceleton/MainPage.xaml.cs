@@ -9,34 +9,44 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Newtonsoft.Json;
 
 namespace SpellJSProjectSceleton
 {
-    public class Request
-    {
-        public string method { get; set; }
-        public string param { get; set; }
-    }
-
     public class AudioContext
     {
-        public string id;
-        public SoundEffectInstance effect;
+        public string src;
+        public SoundEffect effect;
 
-        public AudioContext(string id, SoundEffect effect)
+        public AudioContext(string src, SoundEffect effect)
+        {
+            this.src = src;
+            this.effect = effect;
+        }
+    }
+
+    public class PlayingSound
+    {
+        public string id;
+        public SoundEffectInstance soundInstance;
+        public float volume;
+        public bool loop;
+
+        public PlayingSound(string id, AudioContext context, float volume = 1, bool loop = false)
         {
             this.id = id;
-            this.effect = effect.CreateInstance();
-        }
+            this.soundInstance = context.effect.CreateInstance();
+            this.soundInstance.Volume = volume;
+            this.soundInstance.IsLooped = loop;
+            this.soundInstance.Play();
+        }        
     }
 
     public partial class MainPage : PhoneApplicationPage
     {
         // Url of Home page
         private string MainUri = "/Html/index.html";
-
         private List<AudioContext> sounds = new List<AudioContext>();
+        private List<PlayingSound> playingSounds = new List<PlayingSound>();
 
         // Constructor
         public MainPage()
@@ -58,30 +68,55 @@ namespace SpellJSProjectSceleton
             MessageBox.Show("Navigation to this page failed, check your internet connection");
         }
 
-        private AudioContext FindSoundById(string id)
+        private PlayingSound FindSoundById(string id)
         {
-            return this.sounds.Find(
-                    delegate(AudioContext sound)
-                    {
-                        return sound.id == id;
-                    }
-                );
+            return this.playingSounds.Find(
+                delegate(PlayingSound sound)
+                {
+                    return sound.id == id;
+                }
+            );
         }
 
-        private void PlaySound( string id ) {
+        private void PlaySound( string id, string src, float volume, bool loop ) {
             var found = this.FindSoundById(id);
 
             if (found != null)
             {
-                found.effect.Play();
                 FrameworkDispatcher.Update();
+                found.soundInstance.Play();
             }
+            else
+            {
+                AudioContext context = this.sounds.Find(
+                    delegate(AudioContext sound)
+                    {
+                        return sound.src == src;
+                    }
+                );
+
+                FrameworkDispatcher.Update();
+                PlayingSound playingSound = new PlayingSound(id, context, volume, loop);
+                playingSounds.Add(playingSound);
+            }
+
+            this.cleanUp();
+        }
+
+        private static bool endedSounds(PlayingSound sound)
+        {
+            return sound.soundInstance.State != SoundState.Playing;
+        }
+
+        public async void cleanUp()
+        {
+            this.playingSounds.RemoveAll(endedSounds);
         }
 
         private void LoadBuffer( string src )
         {
             var tmp = "Html/" + src;
-            MessageBox.Show("Loading: '" + tmp + "'");
+
             using (var stream = TitleContainer.OpenStream(tmp))
             {
                 var effect = SoundEffect.FromStream(stream);
@@ -97,7 +132,7 @@ namespace SpellJSProjectSceleton
 
             if (found != null)
             {
-                found.effect.IsLooped = true;
+                found.soundInstance.IsLooped = true;
             }
         }
 
@@ -107,39 +142,74 @@ namespace SpellJSProjectSceleton
 
             if (found != null)
             {
-                found.effect.Volume = volume;
+                found.soundInstance.Volume = volume;
             }
+        }
+
+        private void StopSound(string id)
+        {
+            var found = this.FindSoundById(id);
+
+            if (found != null)
+            {
+                found.soundInstance.Stop();
+                this.playingSounds.Remove(found);
+            }
+        }
+
+        private void StopAll()
+        {
+            this.playingSounds.ForEach(
+                delegate( PlayingSound sound )
+                {
+                    sound.soundInstance.Volume = 0;
+                }
+            );
+        }
+
+        private void ResumeAll()
+        {
+            this.playingSounds.ForEach(
+                delegate(PlayingSound sound)
+                {
+                    sound.soundInstance.Volume = 1;
+                }
+            );
         }
 
         private void Browser_ScriptNotify(object sender, NotifyEventArgs e)
         {
-            Request request = JsonConvert.DeserializeObject<Request>(e.Value);
+            string[] args = e.Value.Split(';');
+            string method = args[0];
 
-            switch(request.method) {
+            switch (method)
+            {
                 case "loadBuffer":
-                    this.LoadBuffer(request.param);
+                    this.LoadBuffer(args[1]);
                     break;
                 case "playSound":
-                    this.PlaySound(request.param);
+                    this.PlaySound(args[1], args[2], float.Parse(args[3]), bool.Parse(args[4]));
                     break;
                 case "setLoop":
-//                    this.SetLoop(request.param, loop);
+                    this.SetLoop(args[1], bool.Parse(args[2]) );
                     break;
                 case "setVolume":
-//                    this.SetVolume(request.param, volume);
+                    this.SetVolume(args[1], float.Parse(args[2]) );
+                    break;
+                case "stopAll":
+                    this.StopAll();
+                    break;
+                case "stopSound":
+                    this.StopSound(args[1]);
+                    break;
+                case "resumeAll":
+                    this.ResumeAll();
                     break;
                 default:
-                    MessageBox.Show("Method: '" + request.method + "' is unknow");
+                    MessageBox.Show("Method: '" + method + "' is unknow");
                     break;
 
             }
-
-            //using (var stream = TitleContainer.OpenStream( e.Value ))
-            //{
-            //    var effect = SoundEffect.FromStream(stream);
-            //    FrameworkDispatcher.Update();
-            //    effect.Play();
-            //}
         }
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
