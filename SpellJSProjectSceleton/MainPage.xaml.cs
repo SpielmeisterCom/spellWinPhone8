@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Phone.Tasks;
 
 namespace SpellJSProjectSceleton
 {
@@ -57,7 +58,6 @@ namespace SpellJSProjectSceleton
         private void Browser_Loaded(object sender, RoutedEventArgs e)
         {
             Browser.IsScriptEnabled = true;
-
             // Add your URL here
             Browser.Navigate(new Uri(MainUri, UriKind.Relative));
         }
@@ -177,6 +177,18 @@ namespace SpellJSProjectSceleton
             );
         }
 
+        private void OpenUrl(string url)
+        {
+            WebBrowserTask wbt = new WebBrowserTask();
+            wbt.URL = url;
+            wbt.Show();
+        }
+
+        private void EndApplication()
+        {
+            Application.Current.Terminate();
+        }
+
         private void Browser_ScriptNotify(object sender, NotifyEventArgs e)
         {
             string[] args = e.Value.Split(';');
@@ -205,6 +217,12 @@ namespace SpellJSProjectSceleton
                 case "resumeAll":
                     this.ResumeAll();
                     break;
+                case "openUrl":
+                    this.OpenUrl(args[1]);
+                    break;
+                case "endApplication":
+                    this.EndApplication();
+                    break;
                 default:
                     MessageBox.Show("Method: '" + method + "' is unknow");
                     break;
@@ -214,15 +232,9 @@ namespace SpellJSProjectSceleton
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-            if (Browser.CanGoBack)
-            {
-                Browser.GoBack();
-                e.Cancel = true;
-            }
-            else
-            {
-                base.OnBackKeyPress(e);
-            }
+            Browser.InvokeScript("backButtonPressed", "230", "keydown");
+            Browser.InvokeScript("backButtonPressed", "230", "keyup");
+            e.Cancel = true;
         }
     }
 }
