@@ -108,7 +108,7 @@ namespace SpellJSProjectSceleton
             return sound.soundInstance.State != SoundState.Playing;
         }
 
-        public async void cleanUp()
+        public void cleanUp()
         {
             this.playingSounds.RemoveAll(endedSounds);
         }
@@ -180,7 +180,7 @@ namespace SpellJSProjectSceleton
         private void OpenUrl(string url)
         {
             WebBrowserTask wbt = new WebBrowserTask();
-            wbt.URL = url;
+            wbt.Uri = new Uri(url);
             wbt.Show();
         }
 
