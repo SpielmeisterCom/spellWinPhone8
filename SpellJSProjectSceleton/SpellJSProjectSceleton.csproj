@@ -93,16 +93,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\AppResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AppResources.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -142,14 +136,139 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\AppResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Content Include="Html\html5\data.js" />
+    <Content Include="Html\html5\spell.js" />
+    <Content Include="Html\index.html" />
+    <Content Include="Html\library\spell\defaultAppearance.png" />
+    <Content Include="Html\library\spell\OpenSans14px.png" />
+    <Content Include="Html\library\spell\remove.png" />
+    <Content Include="Html\library\spell\splash.png" />
+    <Content Include="Html\library\titijump\actor\kiba\spritesheet.png" />
+    <Content Include="Html\library\titijump\actor\kumba\spritesheet.png" />
+    <Content Include="Html\library\titijump\background\cave\background.1.png" />
+    <Content Include="Html\library\titijump\background\cave\background.2.png" />
+    <Content Include="Html\library\titijump\background\cave\background2.1.png" />
+    <Content Include="Html\library\titijump\background\cave\background2.2.png" />
+    <Content Include="Html\library\titijump\background\cave\background3.1.png" />
+    <Content Include="Html\library\titijump\background\cave\background3.2.png" />
+    <Content Include="Html\library\titijump\background\cave\backgroundLoop.1.png" />
+    <Content Include="Html\library\titijump\background\cave\backgroundLoop.2.png" />
+    <Content Include="Html\library\titijump\background\desert\background.1.png" />
+    <Content Include="Html\library\titijump\background\desert\background.2.png" />
+    <Content Include="Html\library\titijump\background\desert\background2.1.png" />
+    <Content Include="Html\library\titijump\background\desert\background2.2.png" />
+    <Content Include="Html\library\titijump\background\desert\background3.1.png" />
+    <Content Include="Html\library\titijump\background\desert\background3.2.png" />
+    <Content Include="Html\library\titijump\background\desert\backgroundLoop.1.png" />
+    <Content Include="Html\library\titijump\background\desert\backgroundLoop.2.png" />
+    <Content Include="Html\library\titijump\background\ice\background.1.png" />
+    <Content Include="Html\library\titijump\background\ice\background.2.png" />
+    <Content Include="Html\library\titijump\background\ice\background2.1.png" />
+    <Content Include="Html\library\titijump\background\ice\background2.2.png" />
+    <Content Include="Html\library\titijump\background\ice\background3.1.png" />
+    <Content Include="Html\library\titijump\background\ice\background3.2.png" />
+    <Content Include="Html\library\titijump\background\ice\backgroundLoop.1.png" />
+    <Content Include="Html\library\titijump\background\ice\backgroundLoop.2.png" />
+    <Content Include="Html\library\titijump\background\jungle\background.1.png" />
+    <Content Include="Html\library\titijump\background\jungle\background.2.png" />
+    <Content Include="Html\library\titijump\background\jungle\background2.1.png" />
+    <Content Include="Html\library\titijump\background\jungle\background2.2.png" />
+    <Content Include="Html\library\titijump\background\jungle\background3.1.png" />
+    <Content Include="Html\library\titijump\background\jungle\background3.2.png" />
+    <Content Include="Html\library\titijump\background\jungle\backgroundLoop.1.png" />
+    <Content Include="Html\library\titijump\background\jungle\backgroundLoop.2.png" />
+    <Content Include="Html\library\titijump\background\menu.png" />
+    <Content Include="Html\library\titijump\environment\enemy\texture\explode.png" />
+    <Content Include="Html\library\titijump\environment\enemy\texture\helicopterPenguin.png" />
+    <Content Include="Html\library\titijump\environment\enemy\texture\penguin.png" />
+    <Content Include="Html\library\titijump\environment\item\texture\banana.png" />
+    <Content Include="Html\library\titijump\environment\item\texture\feather.png" />
+    <Content Include="Html\library\titijump\environment\item\texture\invincible.png" />
+    <Content Include="Html\library\titijump\environment\item\texture\jetPack.png" />
+    <Content Include="Html\library\titijump\environment\item\texture\starBanana.png" />
+    <Content Include="Html\library\titijump\environment\jumpPad\texture.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\breakable\cave.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\breakable\desert.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\breakable\ice.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\breakable\jungle.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\cave.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\desert.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\expiring\cave.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\expiring\desert.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\expiring\ice.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\expiring\jungle.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\ice.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\jungle.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\moving\spritesheet.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\small\cave.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\small\desert.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\small\ice.png" />
+    <Content Include="Html\library\titijump\environment\platform\texture\small\jungle.png" />
+    <Content Include="Html\library\titijump\scene\menu\configure\caveThemePreview.png" />
+    <Content Include="Html\library\titijump\scene\menu\configure\character\kiba.png" />
+    <Content Include="Html\library\titijump\scene\menu\configure\character\kumba.png" />
+    <Content Include="Html\library\titijump\scene\menu\configure\desertThemePreview.png" />
+    <Content Include="Html\library\titijump\scene\menu\configure\iceThemePreview.png" />
+    <Content Include="Html\library\titijump\scene\menu\configure\jungleThemePreview.png" />
+    <Content Include="Html\library\titijump\scene\menu\configure\locked.png" />
+    <Content Include="Html\library\titijump\scene\menu\main\gameLogo.png" />
+    <Content Include="Html\library\titijump\scene\play\controlOverlay\leverKnob.png" />
+    <Content Include="Html\library\titijump\scene\play\controlOverlay\leverRail.png" />
+    <Content Include="Html\library\titijump\sound\effects\buttonPress.mp3" />
+    <Content Include="Html\library\titijump\sound\effects\buttonPress.ogg" />
+    <Content Include="Html\library\titijump\sound\effects\buttonPress.wav" />
+    <Content Include="Html\library\titijump\sound\effects\enemyHit.mp3" />
+    <Content Include="Html\library\titijump\sound\effects\enemyHit.ogg" />
+    <Content Include="Html\library\titijump\sound\effects\enemyHit.wav" />
+    <Content Include="Html\library\titijump\sound\effects\itemCollect.mp3" />
+    <Content Include="Html\library\titijump\sound\effects\itemCollect.ogg" />
+    <Content Include="Html\library\titijump\sound\effects\itemCollect.wav" />
+    <Content Include="Html\library\titijump\sound\effects\jetPack.mp3" />
+    <Content Include="Html\library\titijump\sound\effects\jetPack.ogg" />
+    <Content Include="Html\library\titijump\sound\effects\jetPack.wav" />
+    <Content Include="Html\library\titijump\sound\effects\jumpPad.mp3" />
+    <Content Include="Html\library\titijump\sound\effects\jumpPad.ogg" />
+    <Content Include="Html\library\titijump\sound\effects\jumpPad.wav" />
+    <Content Include="Html\library\titijump\sound\effects\player\die.mp3" />
+    <Content Include="Html\library\titijump\sound\effects\player\die.ogg" />
+    <Content Include="Html\library\titijump\sound\effects\player\die.wav" />
+    <Content Include="Html\library\titijump\sound\effects\player\jump.mp3" />
+    <Content Include="Html\library\titijump\sound\effects\player\jump.ogg" />
+    <Content Include="Html\library\titijump\sound\effects\player\jump.wav" />
+    <Content Include="Html\library\titijump\sound\effects\themeUnlocked.mp3" />
+    <Content Include="Html\library\titijump\sound\effects\themeUnlocked.ogg" />
+    <Content Include="Html\library\titijump\sound\effects\themeUnlocked.wav" />
+    <Content Include="Html\library\titijump\sound\theme\cave.mp3" />
+    <Content Include="Html\library\titijump\sound\theme\cave.ogg" />
+    <Content Include="Html\library\titijump\sound\theme\cave.wav" />
+    <Content Include="Html\library\titijump\sound\theme\desert.mp3" />
+    <Content Include="Html\library\titijump\sound\theme\desert.ogg" />
+    <Content Include="Html\library\titijump\sound\theme\desert.wav" />
+    <Content Include="Html\library\titijump\sound\theme\ice.mp3" />
+    <Content Include="Html\library\titijump\sound\theme\ice.ogg" />
+    <Content Include="Html\library\titijump\sound\theme\ice.wav" />
+    <Content Include="Html\library\titijump\sound\theme\jungle.mp3" />
+    <Content Include="Html\library\titijump\sound\theme\jungle.ogg" />
+    <Content Include="Html\library\titijump\sound\theme\jungle.wav" />
+    <Content Include="Html\library\titijump\ui\button\buttonShape.png" />
+    <Content Include="Html\library\titijump\ui\button\moreGames.png" />
+    <Content Include="Html\library\titijump\ui\font\medium.png" />
+    <Content Include="Html\library\titijump\ui\icon\back.png" />
+    <Content Include="Html\library\titijump\ui\icon\gear.png" />
+    <Content Include="Html\library\titijump\ui\icon\logo.png" />
+    <Content Include="Html\library\titijump\ui\icon\menu.png" />
+    <Content Include="Html\library\titijump\ui\icon\muteOff.png" />
+    <Content Include="Html\library\titijump\ui\icon\muteOn.png" />
+    <Content Include="Html\library\titijump\ui\icon\next.png" />
+    <Content Include="Html\library\titijump\ui\icon\previous.png" />
+    <Content Include="Html\library\titijump\ui\icon\rotate.png" />
+    <Content Include="Html\library\titijump\ui\icon\score.png" />
+    <Content Include="Html\main.css" />
+    <Content Include="Html\spell.loader.js" />
   </ItemGroup>
-<ItemGroup>
-    <Content Include="Html\**\*.*" />
-</ItemGroup>
+  <ItemGroup>
+    <Folder Include="Html\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
