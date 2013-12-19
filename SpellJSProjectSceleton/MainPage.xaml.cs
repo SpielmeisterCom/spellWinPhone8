@@ -322,10 +322,5 @@ namespace SpellJSProjectSceleton
             Browser.InvokeScript("backButtonPressed", "230", "keyup");
             e.Cancel = true;
         }
-
-        public void ResumeAudio()
-        {
-            Browser.InvokeScript("applicationActivated");
-        }
     }
 }
