@@ -36,10 +36,17 @@ namespace SpellJSProjectSceleton
         {
             this.id = id;
             this.soundInstance = context.effect.CreateInstance();
-            this.soundInstance.Volume = volume;
+            this.setVolume(volume);
             this.soundInstance.IsLooped = loop;
+            this.loop = loop;
             this.soundInstance.Play();
-        }        
+        }
+
+        public void setVolume( float volume )
+        {
+            this.soundInstance.Volume = volume;
+            this.volume = volume;
+        }
     }
 
     public partial class MainPage : PhoneApplicationPage
@@ -105,7 +112,7 @@ namespace SpellJSProjectSceleton
 
         private static bool endedSounds(PlayingSound sound)
         {
-            return sound.soundInstance.State != SoundState.Playing;
+            return sound.soundInstance.State == SoundState.Stopped;
         }
 
         public void cleanUp()
@@ -142,7 +149,7 @@ namespace SpellJSProjectSceleton
 
             if (found != null)
             {
-                found.soundInstance.Volume = volume;
+                found.setVolume(volume);
             }
         }
 
@@ -157,7 +164,27 @@ namespace SpellJSProjectSceleton
             }
         }
 
-        private void StopAll()
+        private void Mute(string id)
+        {
+            var found = this.FindSoundById(id);
+
+            if (found != null)
+            {
+                found.soundInstance.Volume = 0;
+            }
+        }
+
+        private void Unmute(string id)
+        {
+            var found = this.FindSoundById(id);
+
+            if (found != null)
+            {
+                found.soundInstance.Volume = found.volume;
+            }
+        }
+
+        private void MuteContext()
         {
             this.playingSounds.ForEach(
                 delegate( PlayingSound sound )
@@ -167,12 +194,12 @@ namespace SpellJSProjectSceleton
             );
         }
 
-        private void ResumeAll()
+        private void UnmuteContext()
         {
             this.playingSounds.ForEach(
                 delegate(PlayingSound sound)
                 {
-                    sound.soundInstance.Volume = 1;
+                    sound.soundInstance.Volume = sound.volume;
                 }
             );
         }
@@ -188,6 +215,47 @@ namespace SpellJSProjectSceleton
         {
             Application.Current.Terminate();
         }
+
+        private void PauseSound(string id)
+        {
+            var found = this.FindSoundById(id);
+
+            if (found != null)
+            {
+                found.soundInstance.Pause();
+            }
+        }
+
+        private void ResumeSound(string id)
+        {
+            var found = this.FindSoundById(id);
+
+            if (found != null)
+            {
+                found.soundInstance.Resume();
+            }
+        }
+
+        private void PauseContext()
+        {
+            this.playingSounds.ForEach(
+                delegate(PlayingSound sound)
+                {
+                    if( sound.soundInstance.State == SoundState.Playing ) sound.soundInstance.Pause();
+                }
+            );
+        }
+
+        private void ResumeContext()
+        {
+            this.playingSounds.ForEach(
+                delegate(PlayingSound sound)
+                {
+                    if( sound.soundInstance.State == SoundState.Paused ) sound.soundInstance.Resume();
+                }
+            );
+        }
+
 
         private void Browser_ScriptNotify(object sender, NotifyEventArgs e)
         {
@@ -208,20 +276,38 @@ namespace SpellJSProjectSceleton
                 case "setVolume":
                     this.SetVolume(args[1], float.Parse(args[2]) );
                     break;
-                case "stopAll":
-                    this.StopAll();
-                    break;
                 case "stopSound":
                     this.StopSound(args[1]);
                     break;
-                case "resumeAll":
-                    this.ResumeAll();
+                case "mute":
+                    this.Mute(args[1]);
+                    break;
+                case "unmute":
+                    this.Unmute(args[1]);
+                    break;
+                case "muteContext":
+                    this.MuteContext();
+                    break;
+                case "unmuteContext":
+                    this.UnmuteContext();
                     break;
                 case "openUrl":
                     this.OpenUrl(args[1]);
                     break;
                 case "endApplication":
                     this.EndApplication();
+                    break;
+                case "pause":
+                    this.PauseSound(args[1]);
+                    break;
+                case "resume":
+                    this.ResumeSound(args[1]);
+                    break;
+                case "pauseContext":
+                    this.PauseContext();
+                    break;
+                case "resumeContext":
+                    this.ResumeContext();
                     break;
                 default:
                     MessageBox.Show("Method: '" + method + "' is unknow");
@@ -235,6 +321,11 @@ namespace SpellJSProjectSceleton
             Browser.InvokeScript("backButtonPressed", "230", "keydown");
             Browser.InvokeScript("backButtonPressed", "230", "keyup");
             e.Cancel = true;
+        }
+
+        public void ResumeAudio()
+        {
+            Browser.InvokeScript("applicationActivated");
         }
     }
 }

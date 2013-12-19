@@ -63,6 +63,8 @@ namespace SpellJSProjectSceleton
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            MainPage currentPage = (MainPage)((PhoneApplicationFrame)Application.Current.RootVisual).Content;
+            currentPage.ResumeAudio();
         }
 
         // Code to execute when the application is deactivated (sent to background)
