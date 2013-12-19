@@ -56,6 +56,8 @@ namespace SpellJSProjectSceleton
         private List<AudioContext> sounds = new List<AudioContext>();
         private List<PlayingSound> playingSounds = new List<PlayingSound>();
 
+        private bool soundIsMuted = false;
+
         // Constructor
         public MainPage()
         {
@@ -102,9 +104,14 @@ namespace SpellJSProjectSceleton
                     }
                 );
 
-                FrameworkDispatcher.Update();
                 PlayingSound playingSound = new PlayingSound(id, context, volume, loop);
                 playingSounds.Add(playingSound);
+
+                if (soundIsMuted)
+                {
+                    Mute(id);
+                }
+                FrameworkDispatcher.Update();
             }
 
             this.cleanUp();
@@ -186,6 +193,7 @@ namespace SpellJSProjectSceleton
 
         private void MuteContext()
         {
+            soundIsMuted = true;
             this.playingSounds.ForEach(
                 delegate( PlayingSound sound )
                 {
@@ -196,6 +204,7 @@ namespace SpellJSProjectSceleton
 
         private void UnmuteContext()
         {
+            soundIsMuted = false;
             this.playingSounds.ForEach(
                 delegate(PlayingSound sound)
                 {
